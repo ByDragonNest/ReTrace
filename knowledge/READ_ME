@@ -1,0 +1,15 @@
+ReTrace methodology knowledge base
+===================================
+This folder is indexed (PDF / TXT / MD) and queried by the `consult_methodology` tool.
+
+Shipped: vuln_research_methodology.md (ReTrace's built-in, original vuln-research methodology).
+
+To enrich it, drop your OWN reference books here as PDF (not bundled, for copyright):
+  - The Art of Software Security Assessment
+  - Practical Binary Analysis
+  - A Bug Hunter's Diary
+  - The Shellcoder's Handbook
+  - Hacking: The Art of Exploitation
+  - fuzzing / exploitation references
+
+Files without an extension (like this one) are NOT indexed.

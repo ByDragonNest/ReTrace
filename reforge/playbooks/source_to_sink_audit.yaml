@@ -1,0 +1,23 @@
+id: source_to_sink_audit
+name: Source-to-Sink Audit
+description: "Reconstruct chains from controllable input to dangerous sinks, with call sites, confidence and limits."
+safety_mode: assisted
+requires_dynamic: false
+steps:
+  - source_inventory
+  - sink_inventory
+  - xref_walk
+  - dataflow_hypothesis
+  - callsite_review
+  - evidence_linking
+  - finding_validation
+expected_outputs: [source_to_sink_chains, callsites, missing_evidence, updated_findings]
+min_validation:
+  require_evidence_id: true
+  require_callsite: true
+  require_source_to_sink: true
+system_prompt: >
+  Start from the sources and sinks in the Evidence Graph. Follow xrefs and intermediate
+  functions; produce explicit chains with call sites, controllability conditions and
+  sanitisation. Mark as confirmed only what has a demonstrable path and technical proof.
+modules: ["strings","imports","findings"]

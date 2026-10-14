@@ -1,0 +1,254 @@
+{
+  "manifest_version": 1,
+  "server": "x64dbg",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Live debugger control via the x64dbg HTTP plugin. Attached to a running process.",
+  "default_risk_class": "write_or_patch",
+  "prerequisites": [
+    "x64dbg with the HTTP plugin"
+  ],
+  "allow_undeclared_tools": false,
+  "tools": [
+    {
+      "name": "BreakAndInspect",
+      "risk_class": "sensitive_read",
+      "capability": "Set a SOFTWARE breakpoint at `addr` (a sink or call site), run until it is ACTUALLY hit, then",
+      "cost": "medium"
+    },
+    {
+      "name": "BreakAtApiAndInspect",
+      "risk_class": "sensitive_read",
+      "capability": "Resolve an imported API (e.g. module=\"kernel32.dll\", api=\"CreateProcessA\"), set a SOFTWARE",
+      "cost": "medium"
+    },
+    {
+      "name": "DebugDeleteBreakpoint",
+      "risk_class": "write_or_patch",
+      "capability": "Delete breakpoint at address using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "DebugPause",
+      "risk_class": "sensitive_read",
+      "capability": "Pause execution of the debugged process using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "DebugRun",
+      "risk_class": "dynamic_execution",
+      "capability": "Resume execution of the debugged process using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "DebugSetBreakpoint",
+      "risk_class": "write_or_patch",
+      "capability": "Set breakpoint at address using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "DebugStepIn",
+      "risk_class": "dynamic_execution",
+      "capability": "Step into the next instruction using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "DebugStepOut",
+      "risk_class": "dynamic_execution",
+      "capability": "Step out of the current function using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "DebugStepOver",
+      "risk_class": "dynamic_execution",
+      "capability": "Step over the next instruction using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "DebugStop",
+      "risk_class": "sensitive_read",
+      "capability": "Stop debugging using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "DeleteHardwareBreakpoint",
+      "risk_class": "write_or_patch",
+      "capability": "Delete a hardware breakpoint at the specified address.",
+      "cost": "medium"
+    },
+    {
+      "name": "DisasmGetInstructionRange",
+      "risk_class": "sensitive_read",
+      "capability": "Get disassembly of multiple instructions starting at the specified address",
+      "cost": "medium"
+    },
+    {
+      "name": "EnumHandles",
+      "risk_class": "sensitive_read",
+      "capability": "Enumerate all open handles in the debugged process.",
+      "cost": "medium"
+    },
+    {
+      "name": "EnumTcpConnections",
+      "risk_class": "sensitive_read",
+      "capability": "Enumerate all TCP connections of the debugged process.",
+      "cost": "medium"
+    },
+    {
+      "name": "ExecCommand",
+      "risk_class": "dynamic_execution",
+      "capability": "Execute a command in x64dbg and return its output",
+      "cost": "medium"
+    },
+    {
+      "name": "GetBranchDestination",
+      "risk_class": "sensitive_read",
+      "capability": "Get the destination address of a branch instruction (jmp, call, jcc, etc.).",
+      "cost": "medium"
+    },
+    {
+      "name": "GetBreakpointList",
+      "risk_class": "sensitive_read",
+      "capability": "Get list of all breakpoints currently set in the debugger.",
+      "cost": "medium"
+    },
+    {
+      "name": "GetCallStack",
+      "risk_class": "sensitive_read",
+      "capability": "Get the current call stack of the debugged thread.",
+      "cost": "medium"
+    },
+    {
+      "name": "GetMemoryMap",
+      "risk_class": "sensitive_read",
+      "capability": "Get the full virtual memory map of the debugged process.",
+      "cost": "medium"
+    },
+    {
+      "name": "GetModuleList",
+      "risk_class": "sensitive_read",
+      "capability": "Get list of loaded modules.",
+      "cost": "medium"
+    },
+    {
+      "name": "GetRegisterDump",
+      "risk_class": "sensitive_read",
+      "capability": "Get a complete dump of all CPU registers in one call.",
+      "cost": "medium"
+    },
+    {
+      "name": "GetThreadList",
+      "risk_class": "sensitive_read",
+      "capability": "Get list of all threads in the debugged process with detailed information.",
+      "cost": "medium"
+    },
+    {
+      "name": "MemoryBase",
+      "risk_class": "sensitive_read",
+      "capability": "Find the base address and size of a module containing the given address",
+      "cost": "medium"
+    },
+    {
+      "name": "MemoryGetProtect",
+      "risk_class": "sensitive_read",
+      "capability": "Get memory protection flags",
+      "cost": "medium"
+    },
+    {
+      "name": "MemoryRead",
+      "risk_class": "sensitive_read",
+      "capability": "Read memory using enhanced Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "MemoryWrite",
+      "risk_class": "write_or_patch",
+      "capability": "Write memory using enhanced Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "MiscParseExpression",
+      "risk_class": "sensitive_read",
+      "capability": "Parse expression using Script API (numeric / duint result only NO STRINGS).",
+      "cost": "medium"
+    },
+    {
+      "name": "MiscRemoteGetProcAddress",
+      "risk_class": "sensitive_read",
+      "capability": "Get remote procedure address using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "PatternFindMem",
+      "risk_class": "sensitive_read",
+      "capability": "Find pattern in memory using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "QuerySymbols",
+      "risk_class": "sensitive_read",
+      "capability": "Enumerate symbols for a specific module. Use GetModuleList first to discover module names.",
+      "cost": "medium"
+    },
+    {
+      "name": "ReadCallArguments",
+      "risk_class": "sensitive_read",
+      "capability": "At the CURRENT break (e.g. right after entering a function), read the first `count` call",
+      "cost": "medium"
+    },
+    {
+      "name": "ReadStringSmart",
+      "risk_class": "sensitive_read",
+      "capability": "Read a string at an address: try x64dbg's own detection first, then decode raw memory as",
+      "cost": "medium"
+    },
+    {
+      "name": "RegisterGet",
+      "risk_class": "sensitive_read",
+      "capability": "Get register value using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "RegisterSet",
+      "risk_class": "sensitive_read",
+      "capability": "Set register value using Script API",
+      "cost": "medium"
+    },
+    {
+      "name": "SetHardwareBreakpoint",
+      "risk_class": "write_or_patch",
+      "capability": "Set a hardware breakpoint at the specified address.",
+      "cost": "medium"
+    },
+    {
+      "name": "StringGetAt",
+      "risk_class": "sensitive_read",
+      "capability": "Retrieve the string at a given address in the debugged process.",
+      "cost": "medium"
+    },
+    {
+      "name": "WaitForBreak",
+      "risk_class": "sensitive_read",
+      "capability": "Block until the debuggee is actually PAUSED (breakpoint hit), or the timeout expires.",
+      "cost": "medium"
+    },
+    {
+      "name": "XrefGet",
+      "risk_class": "sensitive_read",
+      "capability": "Get all cross-references (xrefs) TO the specified address.",
+      "cost": "medium"
+    },
+    {
+      "name": "x64dbg_state",
+      "risk_class": "sensitive_read",
+      "capability": "THE single tool for \"what is the debuggee doing right now\": alive or not, running or paused,",
+      "cost": "medium"
+    },
+    {
+      "name": "x64dbg_wait_for_exit",
+      "risk_class": "sensitive_read",
+      "capability": "Poll for confirmed process exit. Timeout returns state=timeout, not terminated.",
+      "cost": "medium"
+    }
+  ]
+}

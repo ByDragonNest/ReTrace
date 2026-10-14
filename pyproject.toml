@@ -1,0 +1,131 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "retrace"
+version = "0.1.0"
+description = "Evidence-first Application Security Testing platform for binaries, libraries, drivers and firmware."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "ReTrace" }]
+keywords = ["application-security-testing", "reverse-engineering", "vulnerability-research", "mcp", "binary-analysis"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Information Technology",
+  "Topic :: Security",
+  "Programming Language :: Python :: 3 :: Only",
+]
+
+# ---------------------------------------------------------------------------
+# Core runtime. Every module-level third-party import in `reforge/` must be
+# listed here — tests/test_packaging_and_state.py enforces that and fails the
+# build when a new hard import is added without declaring it.
+#
+# Everything that is imported lazily (inside a function or a try/except) belongs
+# in an optional extra below, so the product keeps running with the feature
+# degraded rather than refusing to start.
+# ---------------------------------------------------------------------------
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn>=0.27",
+  "pydantic>=2.5",
+  # Imported directly by reforge/server.py for route matching in the default-deny middleware.
+  # It arrives with FastAPI, but a direct import is a direct dependency.
+  "starlette>=0.37",
+  "python-multipart>=0.0.9",   # required by FastAPI for the UploadFile routes
+  "PyYAML>=6.0",               # reforge/playbook.py
+  # The pin below is load-bearing: every bundled MCP server uses
+  # `mcp.server.fastmcp`, which was removed in mcp 2.x.
+  "mcp>=1.2.0,<2",
+  # Validates MCP tool arguments against their declared schema at the gateway. Core, not an
+  # extra: the fallback check is narrower, and this is a security control.
+  "jsonschema>=4.0",
+  "pefile>=2023.2.7",
+  "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+# Cloud model provider (reforge/llm.py, lazy import).
+cloud = ["anthropic>=0.40.0"]
+# Local / OpenAI-compatible provider: Ollama, LM Studio, llama.cpp (lazy import).
+local = ["openai>=1.30.0"]
+# DOCX and PDF report export (lazy imports in report_docx.py / report_export.py).
+reports = ["python-docx>=1.1.0", "xhtml2pdf>=0.2.13"]
+# Methodology PDF ingestion for `consult_methodology`.
+# Deliberately pypdf-only: reforge/knowledge.py can also use PyMuPDF (`fitz`), but PyMuPDF is
+# AGPL-3.0 (or a paid Artifex licence) and must not be distributed with a proprietary on-premise
+# product. The fitz path stays as an optional operator-installed accelerator.
+# See docs/third-party-and-license-inventory.md §3.
+knowledge = ["pypdf>=4.0.0"]
+# Optional Neo4j mirror of the Evidence Graph. The graph itself lives in SQLite and never needs this.
+neo4j = ["neo4j>=5.0"]
+# OIDC bearer-token validation (reforge/identity_providers.py, lazy imports). Only needed when
+# identity_provider = "oidc_bearer"; the workstation profile's local operator needs neither.
+oidc = ["PyJWT[crypto]>=2.8", "httpx>=0.27"]
+# Optional dependencies of the bundled MCP servers. tshark/Wireshark is an OS package, not a wheel.
+servers = ["flare-floss>=3.0"]
+dev = [
+  "pytest>=8.0",
+  "tomli>=2.0; python_version < '3.11'",   # tomllib backport for the packaging tests on 3.10
+  "ruff>=0.5",
+  "mypy>=1.10",
+]
+# Everything an analyst workstation normally wants, minus the heavyweight extras
+# (angr lives in its own virtualenv — see requirements-angr.txt — and frida is
+# operator-installed).
+all = [
+  "retrace[cloud,local,reports,knowledge,neo4j,oidc,servers]",
+]
+
+[project.scripts]
+retrace = "reforge.__main__:main"
+
+[project.urls]
+Documentation = "https://github.com/ByDragonNest/ReTrace/tree/main/docs"
+
+[tool.setuptools.packages.find]
+include = ["reforge*"]
+exclude = ["tests*", "servers*", "mcp_servers*", "benchmarks*", "projects*", "workspace*", "sessions*", "jobs*"]
+
+[tool.setuptools.package-data]
+# The SPA lives inside the package so `pip install .` produces a self-contained wheel: an install
+# that serves the UI without needing the source checkout next to it.
+reforge = ["prompts/*.md", "playbooks/*.yaml", "web/*.html", "web/*.js", "web/*.css",
+           "mcp.servers.default.json", "manifests/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+exclude = ["reforge/web", ".venv", "mcp_servers"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S"]
+ignore = [
+  "E501",    # line length is handled by the formatter
+  "B008",    # FastAPI's Depends()/File() default-argument idiom
+  "S101",    # assert is fine in tests
+  "S603", "S607",  # subprocess use in the MCP servers is intentional and reviewed
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S", "E402"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+# Without this plugin mypy does not understand `Field(default, ...)` and reports every settings
+# field as a missing required argument.
+plugins = ["pydantic.mypy"]
+# The whole package. This started scoped to the security-critical modules while the annotations
+# were completed; widening it to the tree found 75 errors outside that scope, several of them real
+# (a handler returning a dict where its caller expected a string, an import of a function that did
+# not exist, `.group()` on a match that could be None). The scope is the whole package now, so a
+# new module is checked by default rather than by being remembered.
+files = ["reforge"]

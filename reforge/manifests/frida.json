@@ -1,0 +1,35 @@
+{
+  "manifest_version": 1,
+  "server": "frida",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Runtime instrumentation. Attaches to and executes code in a live process.",
+  "default_risk_class": "dynamic_execution",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "frida_list_processes",
+      "risk_class": "sensitive_read",
+      "capability": "Enumerates running processes on this machine.",
+      "cost": "medium"
+    },
+    {
+      "name": "list_sink_presets",
+      "risk_class": "safe_read",
+      "capability": "Returns the built-in sink presets. Static data; touches no process.",
+      "cost": "medium"
+    },
+    {
+      "name": "trace_custom_apis",
+      "risk_class": "dynamic_execution",
+      "capability": "Attaches to a live process and injects instrumentation.",
+      "cost": "medium"
+    },
+    {
+      "name": "trace_sinks",
+      "risk_class": "dynamic_execution",
+      "capability": "Attaches to a live process and injects instrumentation.",
+      "cost": "medium"
+    }
+  ]
+}

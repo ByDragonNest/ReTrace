@@ -1,0 +1,84 @@
+{
+  "manifest_version": 1,
+  "server": "builtin",
+  "version": "0.1.0",
+  "author": "ReTrace",
+  "description": "ReTrace's own in-process meta-tools (reforge/agent.py), not an MCP server.",
+  "default_risk_class": "write_or_patch",
+  "prerequisites": [],
+  "allow_undeclared_tools": false,
+  "tools": [
+    {
+      "name": "add_finding",
+      "risk_class": "write_or_patch",
+      "capability": "Writes a finding into the project. Changes stored state.",
+      "cost": "fast"
+    },
+    {
+      "name": "attack_surface",
+      "risk_class": "safe_read",
+      "capability": "Returns the dangerous-sink and input-source inventory.",
+      "cost": "fast"
+    },
+    {
+      "name": "consult_methodology",
+      "risk_class": "safe_read",
+      "capability": "Searches the local methodology knowledge base.",
+      "cost": "fast"
+    },
+    {
+      "name": "exploitability",
+      "risk_class": "safe_read",
+      "capability": "Deterministic severity suggestion from recorded evidence.",
+      "cost": "fast"
+    },
+    {
+      "name": "list_artifacts",
+      "risk_class": "safe_read",
+      "capability": "Lists artifacts registered on the project.",
+      "cost": "fast"
+    },
+    {
+      "name": "parse_artifact",
+      "risk_class": "sensitive_read",
+      "capability": "Resolves an artifact id to a path and routes it to a parser.",
+      "cost": "fast"
+    },
+    {
+      "name": "read_artifact",
+      "risk_class": "sensitive_read",
+      "capability": "Reads a bounded head of an uploaded artifact.",
+      "cost": "fast"
+    },
+    {
+      "name": "record_dataflow",
+      "risk_class": "write_or_patch",
+      "capability": "Records a source-to-sink chain on the project.",
+      "cost": "fast"
+    },
+    {
+      "name": "search_tools",
+      "risk_class": "safe_read",
+      "capability": "Retrieves matching MCP tools from the catalogue.",
+      "cost": "fast"
+    },
+    {
+      "name": "vuln_checklist",
+      "risk_class": "safe_read",
+      "capability": "Returns the investigation checklist for a vulnerability class.",
+      "cost": "fast"
+    },
+    {
+      "name": "wait_for_reload",
+      "risk_class": "safe_read",
+      "capability": "Waits for the operator to reload the target in the debugger.",
+      "cost": "fast"
+    },
+    {
+      "name": "workflow_status",
+      "risk_class": "safe_read",
+      "capability": "Reports the current workflow phase and suggested next steps.",
+      "cost": "fast"
+    }
+  ]
+}

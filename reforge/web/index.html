@@ -1,0 +1,608 @@
+<!doctype html>
+<!-- `lang` is corrected at runtime by applyLang(); "en" is the shipped default. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ReTrace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="/styles.css?v=8.0">
+</head>
+<body>
+<!-- Skip link: the first thing a keyboard user reaches. Without it, getting to the content means
+     tabbing through the whole navigation on every page load. Visually hidden until focused. -->
+<a href="#main" class="skip-link" data-i18n="a11y.skip">Skip to main content</a>
+<svg class="icon-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs>
+<!-- One icon set: 24x24 grid, 1.6 stroke, round caps/joins, no fills.
+     Icons carry meaning only; nothing here is decorative. -->
+<symbol id="i-overview" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M12 13l4.2-3.4"/><path d="M4 18h16"/></symbol>
+<symbol id="i-findings" viewBox="0 0 24 24"><path d="M12 4.5 21 19.5H3z"/><path d="M12 10v4"/><path d="M12 17.2h.01"/></symbol>
+<symbol id="i-posture" viewBox="0 0 24 24"><path d="M12 3.5 19.5 6.5v5.2c0 4.3-3 7.9-7.5 9.3-4.5-1.4-7.5-5-7.5-9.3V6.5z"/><path d="M9.2 12.1l2 2 3.6-3.8"/></symbol>
+<symbol id="i-assistant" viewBox="0 0 24 24"><path d="M20 12.5a7.2 7.2 0 0 1-7.4 7.2 8.3 8.3 0 0 1-3.3-.6L4.3 21l1.2-4.3A7 7 0 0 1 4 12.5C4 8.5 7.6 5.3 12 5.3s8 3.2 8 7.2z"/></symbol>
+<symbol id="i-graph" viewBox="0 0 24 24"><circle cx="6" cy="7" r="2.4"/><circle cx="18" cy="6.5" r="2.2"/><circle cx="17" cy="17.5" r="2.4"/><circle cx="7.5" cy="16" r="2"/><path d="M8.2 8.2l7.3-1.2M7.2 9.3l.2 4.7M9.4 15.3l5.3 1.6M17.6 8.7l-.4 6.5"/></symbol>
+<symbol id="i-evidence" viewBox="0 0 24 24"><path d="M13.5 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9z"/><path d="M13.5 3.5V9H19"/><path d="M9 14.6l1.8 1.8 3.5-3.7"/></symbol>
+<symbol id="i-toollog" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M7.5 9.5l2.6 2.5-2.6 2.5"/><path d="M12.6 15h4"/></symbol>
+<symbol id="i-strings" viewBox="0 0 24 24"><path d="M5 7V5.5h14V7"/><path d="M12 5.5v13"/><path d="M9.3 18.5h5.4"/></symbol>
+<symbol id="i-imports" viewBox="0 0 24 24"><path d="M12 3.8v9.4"/><path d="M8.4 9.8 12 13.4l3.6-3.6"/><path d="M4.5 15.5v3a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3"/></symbol>
+<symbol id="i-artifacts" viewBox="0 0 24 24"><path d="M18.6 11.3 12 17.9a4 4 0 0 1-5.7-5.7l6.8-6.8a2.7 2.7 0 0 1 3.8 3.8l-6.7 6.7a1.3 1.3 0 0 1-1.9-1.9l6-6"/></symbol>
+<symbol id="i-playbooks" viewBox="0 0 24 24"><path d="M4.5 5.2A1.7 1.7 0 0 1 6.2 3.5H18a1.5 1.5 0 0 1 1.5 1.5v12H6.2a1.7 1.7 0 0 0-1.7 1.7z"/><path d="M4.5 18.7a1.8 1.8 0 0 0 1.8 1.8h13.2"/><path d="M8.5 7.5h7M8.5 11h4.5"/></symbol>
+<symbol id="i-jobs" viewBox="0 0 24 24"><path d="M12 3.5 20.5 8 12 12.5 3.5 8z"/><path d="m3.5 12 8.5 4.5 8.5-4.5"/><path d="m3.5 16 8.5 4.5 8.5-4.5"/></symbol>
+<symbol id="i-reports" viewBox="0 0 24 24"><path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/><path d="M14 3.5v5h5"/><path d="M8.5 13h7M8.5 16.5h4.5"/></symbol>
+<symbol id="i-servers" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="6" rx="1.6"/><rect x="3.5" y="14" width="17" height="6" rx="1.6"/><path d="M7 7h.01M7 17h.01"/></symbol>
+<symbol id="i-projects" viewBox="0 0 24 24"><path d="M3.5 7.2A1.7 1.7 0 0 1 5.2 5.5h3.9l2 2.4h7.7a1.7 1.7 0 0 1 1.7 1.7v7.7a1.7 1.7 0 0 1-1.7 1.7H5.2a1.7 1.7 0 0 1-1.7-1.7z"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 0 1 4.8.8c0 1.7-2.4 2-2.4 3.4"/><path d="M12 16.8h.01"/></symbol>
+
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.4 15.4 4.1 4.1"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.9"/><path d="M19 12a7 7 0 0 0-.1-1.2l1.8-1.3-1.8-3.1-2.1.8a7 7 0 0 0-2-1.2l-.3-2.2h-3.6l-.3 2.2a7 7 0 0 0-2 1.2l-2.1-.8-1.8 3.1 1.8 1.3a7 7 0 0 0 0 2.4l-1.8 1.3 1.8 3.1 2.1-.8a7 7 0 0 0 2 1.2l.3 2.2h3.6l.3-2.2a7 7 0 0 0 2-1.2l2.1.8 1.8-3.1-1.8-1.3A7 7 0 0 0 19 12z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.4A8.3 8.3 0 0 1 9.6 4 8.5 8.5 0 1 0 20 14.4z"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11M17.5 6.5l-11 11"/></symbol>
+<symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m5.5 9 6.5 6.5L18.5 9"/></symbol>
+<symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4.5 12h15"/><path d="m13.5 6 6 6-6 6"/></symbol>
+<symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4.5v15"/><path d="m6 13.5 6 6 6-6"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19.5 11A7.5 7.5 0 0 0 6.6 6.6L4.5 8.6"/><path d="M4.5 13a7.5 7.5 0 0 0 12.9 4.4l2.1-2"/><path d="M4.5 4.5v4.1h4.1M19.5 19.5v-4.1h-4.1"/></symbol>
+<symbol id="i-maximize" viewBox="0 0 24 24"><path d="M4.5 9V4.5H9M15 4.5h4.5V9M19.5 15v4.5H15M9 19.5H4.5V15"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v10"/><path d="m7.5 10 4.5 4.5L16.5 10"/><path d="M4.5 19.5h15"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5.5 12.5 4.3 4.3 8.7-9.3"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17"/></symbol>
+<symbol id="i-filter" viewBox="0 0 24 24"><path d="M4.5 6h15l-5.8 6.8v5.4l-3.4 1.8v-7.2z"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.6"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="1.8"/><path d="M15.5 5.6a1.8 1.8 0 0 0-1.6-1.1H6.3a1.8 1.8 0 0 0-1.8 1.8v7.6c0 .7.4 1.3 1.1 1.6"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.2"/><path d="M12 7.9h.01"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.6v5"/><path d="M12 16.1h.01"/></symbol>
+<symbol id="i-shield-alert" viewBox="0 0 24 24"><path d="M12 3.5 19.5 6.5v5.2c0 4.3-3 7.9-7.5 9.3-4.5-1.4-7.5-5-7.5-9.3V6.5z"/><path d="M12 8.6v4"/><path d="M12 15.6h.01"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M13.2 2.5 4.8 13.2h6L10 21.5l8.6-10.9h-6.2z"/></symbol>
+<symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3.5 13.7 9l5.5 1.7-5.5 1.7L12 18l-1.7-5.6L4.8 10.7 10.3 9z"/><path d="M18.5 16.5l.6 1.9 1.9.6-1.9.6-.6 1.9-.6-1.9-1.9-.6 1.9-.6z"/></symbol>
+<symbol id="i-file-down" viewBox="0 0 24 24"><path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/><path d="M14 3.5v5h5"/><path d="M12 11.5v5"/><path d="m9.6 14.1 2.4 2.4 2.4-2.4"/></symbol>
+<symbol id="i-upload-cloud" viewBox="0 0 24 24"><path d="M7.5 17.5a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 17.8 10a3.8 3.8 0 0 1 .7 7.5"/><path d="M12 12v8"/><path d="m9.3 14.7 2.7-2.7 2.7 2.7"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4.5 7h15M4.5 12h15M4.5 17h15"/></symbol>
+<symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="1.8"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M20 4 3.8 10.5l6.6 2.6 2.6 6.6z"/><path d="m10.4 13.1 4.6-4.6"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5.5 20.5V4"/><path d="M5.5 5h11l-2 3.5 2 3.5h-11"/></symbol>
+<symbol id="i-layout" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v10"/></symbol>
+<symbol id="i-brand" viewBox="0 0 24 24"><path d="M4.5 18.5h4v-5h5v-5h5" stroke-linecap="square"/><circle cx="4.8" cy="18.3" r="1.8" fill="currentColor" stroke="none"/><circle cx="18.6" cy="8.4" r="1.9"/></symbol>
+</defs></svg>
+
+<div class="rail-scrim" id="railScrim"></div>
+
+<aside class="rail" id="rail">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true"><svg class="ic ic-lg" viewBox="0 0 24 24"><use href="#i-brand"/></svg></div>
+    <div class="brand-text"><strong>ReTrace</strong><span>Binary analysis workspace</span></div>
+  </div>
+
+  <div class="project-box">
+    <label for="railProj" data-i18n="rail.activeproj">Active project</label>
+    <div class="project-row">
+      <select id="railProj" aria-label="Active project"></select>
+      <button id="railNew" class="icon-btn" title="New project" aria-label="New project" type="button"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="Main sections">
+    <div class="nav-group">
+      <div class="nav-group-label" id="navgrp-assessment">Assessment</div>
+      <div role="group" aria-labelledby="navgrp-assessment">
+        <button class="nav-item active" data-view="assessment"><svg class="ic" aria-hidden="true"><use href="#i-overview"/></svg><span data-i18n="nav.assessment">Overview</span></button>
+        <button class="nav-item" data-view="findings"><svg class="ic" aria-hidden="true"><use href="#i-findings"/></svg><span data-i18n="nav.findings">Findings</span><span class="nav-badge" id="fcount">0</span></button>
+        <button class="nav-item" data-view="posture"><svg class="ic" aria-hidden="true"><use href="#i-posture"/></svg><span data-i18n="nav.posture">Security posture</span></button>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label" id="navgrp-investigation">Investigation</div>
+      <div role="group" aria-labelledby="navgrp-investigation">
+        <button class="nav-item" data-view="chat"><svg class="ic" aria-hidden="true"><use href="#i-assistant"/></svg><span data-i18n="nav.chat">Assistant</span></button>
+        <button class="nav-item" data-view="graph"><svg class="ic" aria-hidden="true"><use href="#i-graph"/></svg><span data-i18n="nav.graph">Evidence Graph</span></button>
+        <button class="nav-item" data-view="evidence"><svg class="ic" aria-hidden="true"><use href="#i-evidence"/></svg><span data-i18n="nav.evidence">Evidence</span><span class="nav-badge" id="ecount">0</span></button>
+        <button class="nav-item" data-view="toollog"><svg class="ic" aria-hidden="true"><use href="#i-toollog"/></svg><span data-i18n="nav.toollog">Tool log</span><span class="nav-badge" id="tcount">0</span></button>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label" id="navgrp-analysis">Static analysis</div>
+      <div role="group" aria-labelledby="navgrp-analysis">
+        <button class="nav-item" data-view="strings"><svg class="ic" aria-hidden="true"><use href="#i-strings"/></svg><span data-i18n="nav.strings">Strings</span><span class="nav-badge" id="scount">0</span></button>
+        <button class="nav-item" data-view="imports"><svg class="ic" aria-hidden="true"><use href="#i-imports"/></svg><span data-i18n="nav.imports">Imports</span><span class="nav-badge" id="icount">0</span></button>
+        <button class="nav-item" data-view="artifacts"><svg class="ic" aria-hidden="true"><use href="#i-artifacts"/></svg><span data-i18n="nav.artifacts">Artifacts</span><span class="nav-badge" id="acount">0</span></button>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label" id="navgrp-automation">Automation</div>
+      <div role="group" aria-labelledby="navgrp-automation">
+        <button class="nav-item" data-view="playbooks"><svg class="ic" aria-hidden="true"><use href="#i-playbooks"/></svg><span data-i18n="nav.playbooks">Playbooks</span></button>
+        <button class="nav-item" data-view="jobs"><svg class="ic" aria-hidden="true"><use href="#i-jobs"/></svg><span data-i18n="nav.jobs">Jobs</span><span class="nav-badge" id="jcount" hidden>0</span></button>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label" id="navgrp-delivery">Delivery</div>
+      <div role="group" aria-labelledby="navgrp-delivery">
+        <button class="nav-item" data-view="reports"><svg class="ic" aria-hidden="true"><use href="#i-reports"/></svg><span data-i18n="nav.reports">Reports &amp; exports</span></button>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label" id="navgrp-system">System</div>
+      <div role="group" aria-labelledby="navgrp-system">
+        <button class="nav-item" data-view="servers"><svg class="ic" aria-hidden="true"><use href="#i-servers"/></svg><span data-i18n="nav.servers">Servers &amp; tools</span></button>
+        <button class="nav-item" data-view="projects"><svg class="ic" aria-hidden="true"><use href="#i-projects"/></svg><span data-i18n="nav.projects">Projects</span></button>
+        <button class="nav-item" data-view="howto"><svg class="ic" aria-hidden="true"><use href="#i-help"/></svg><span data-i18n="nav.help">How it works</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="rail-foot">
+    <div class="rail-model" title="Active language model"><span id="model">…</span></div>
+    <div class="rail-foot-row">
+      <button id="settingsBtn" class="gear" type="button" title="Settings" aria-label="Settings"><svg class="ic" aria-hidden="true"><use href="#i-settings"/></svg></button>
+      <button id="themeToggle" class="theme-toggle" type="button" title="Switch theme" aria-label="Switch between light and dark theme"><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <span class="ver">Local</span>
+    </div>
+  </div>
+</aside>
+
+<main class="stage" id="main" tabindex="-1">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+      <div class="topbar-titles">
+        <span class="eyebrow" data-i18n="top.eyebrow">Reverse engineering · vuln audit</span>
+        <span id="activeProj">—</span>
+      </div>
+      <button id="phaseChip" class="phase-chip" type="button" hidden title="Workflow phase"></button>
+    </div>
+    <div class="topbar-actions">
+      <button id="paletteBtn" class="omni-btn" type="button" title="Search findings, functions, imports, strings, evidence, artifacts and tool calls">
+        <svg class="ic ic-sm" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span><kbd class="omni-kbd">⌘K</kbd>
+      </button>
+      <span id="safetyBadge" class="safety-badge warn" title="Which actions the agent may take without asking you"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-posture"/></svg><span>Safety</span>&nbsp;<b>Assisted</b></span>
+      <span id="costBadge" class="cost-badge" hidden title="Estimated spend on the Anthropic API for this project">Claude <b>$0.0000</b></span>
+      <button id="stopBtn" class="stop" type="button" hidden><svg class="ic ic-sm" aria-hidden="true"><use href="#i-stop"/></svg>Stop</button>
+      <button id="exportRawTop" class="ghost-btn" type="button" title="Download everything recorded for this assessment as raw Markdown"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-file-down"/></svg>Raw .md</button>
+      <button id="reportBtn" class="solid-btn" type="button" data-i18n="top.report"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-reports"/></svg>Report</button>
+    </div>
+  </div>
+
+  <div id="llmBanner" class="banner" hidden role="status"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-info"/></svg>No language model is configured. Offline static analysis still runs in full — open Settings to add one.</div>
+
+  <div class="content">
+    <!-- ASSESSMENT (landing) -->
+    <section id="view-assessment" class="view scroll active">
+      <div id="assessmentBody" class="assess">
+        <div class="skeleton-stack" aria-busy="true" aria-live="polite">
+          <div class="skel skel-hero"></div>
+          <div class="skel-row"><div class="skel skel-tile"></div><div class="skel skel-tile"></div><div class="skel skel-tile"></div><div class="skel skel-tile"></div></div>
+          <div class="skel skel-block"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECURITY POSTURE -->
+    <section id="view-posture" class="view scroll">
+      <div class="view-head">
+        <div>
+          <h2>Security posture</h2>
+          <p>Exploit mitigations, dangerous API surface and the signals that frame how exploitable a defect would be on this target. Separated from vulnerabilities on purpose: a missing mitigation is not a bug, it is what makes a bug worse.</p>
+        </div>
+      </div>
+      <div id="postureBody" class="posture"></div>
+    </section>
+
+    <!-- CHAT -->
+    <section id="view-chat" class="view">
+      <div id="chatContext" class="chat-context" hidden></div>
+      <div id="stream" class="stream">
+        <div class="empty" id="empty">
+          <span class="eyebrow">reverse engineering · agent</span>
+          <h1 data-i18n="empty.title">Ready to investigate.</h1>
+          <p>Open or create a project, set the target binary (static analysis starts automatically) and use the buttons to start an analysis, or write a question. You will see the agent's reasoning in real time.</p>
+        </div>
+      </div>
+      <!-- The agent's live status: approval requests, tool progress, errors. A screen reader
+           user gets none of it without role="status" + aria-live, and this is the most important
+           dynamic region in the application. -->
+      <div id="status" class="status" role="status" aria-live="polite" aria-atomic="true" hidden><span class="pulse" aria-hidden="true"></span><span id="statusText"></span></div>
+      <div class="launcher">
+        <div class="launch-actions">
+          <button class="launch-btn static" data-launch="static" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-search"/></svg>Static analysis</button>
+          <button class="launch-btn dynamic" data-launch="dynamic" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-zap"/></svg>Dynamic analysis</button>
+        </div>
+        <div class="mode-pills" title="Chooses which system prompt to use for messages you type by hand in chat: Auto = general, Static = reversing focus, Dynamic = x64dbg focus">
+          <span class="mode-pills-label">manual chat messages use:</span>
+          <button class="modepill active" data-mode="auto" type="button">auto</button>
+          <button class="modepill" data-mode="static" type="button">static</button>
+          <button class="modepill" data-mode="dynamic" type="button">dynamic</button>
+        </div>
+      </div>
+      <form id="composer" class="composer">
+        <textarea id="input" rows="1" placeholder="E.g. “Confirm in x64dbg the untrusted search path on CreateProcessA”"></textarea>
+        <button id="send" type="submit" data-i18n="chat.send"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-send"/></svg>Send</button>
+      </form>
+    </section>
+
+    <!-- FINDINGS -->
+    <section id="view-findings" class="view scroll">
+      <div class="view-head">
+        <div><h2 data-i18n="view.findings">Findings</h2><p id="findingsSummary" class="muted"></p></div>
+        <div class="f-actions">
+          <button id="validateAll" class="ask-ai" type="button" title="Asks the AI to confirm or refute findings discovered offline"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-sparkle"/></svg>Validate with AI</button>
+        </div>
+      </div>
+      <div class="f-filters">
+        <input id="fSearch" class="field-in" type="search" placeholder="Filter by title, CWE, location, class…" aria-label="Filter findings">
+        <select id="fSeverity" class="tm-select" aria-label="Severity filter">
+          <option value="">All severities</option>
+          <option value="CRITICAL">Critical</option>
+          <option value="HIGH">High</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="LOW">Low</option>
+          <option value="INFO">Info</option>
+        </select>
+        <select id="fClass" class="tm-select" aria-label="Finding class filter">
+          <option value="">All classes</option>
+          <option value="vulnerability">Vulnerabilities</option>
+          <option value="hardening">Hardening weaknesses</option>
+          <option value="informational">Informational</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <div id="findingsList" class="findings-grid"></div>
+    </section>
+
+    <!-- EVIDENCE GRAPH -->
+    <section id="view-graph" class="view scroll">
+      <div class="view-head">
+        <div><h2 data-i18n="view.graph">Evidence Graph</h2><p class="muted">Queryable analysis database: binaries, functions, imports, sinks, sources, evidence, findings and relationships. Synced from the project state.</p></div>
+        <div class="g-actions">
+          <button id="graphRefresh" class="solid-btn" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-refresh"/></svg>Refresh</button>
+          <button id="neo4jBtn" class="btn-sm" type="button" title="Sync the graph to Neo4j (optional) or download the Cypher script">Neo4j</button>
+          <button id="exportSarif" class="btn-sm" type="button" title="Export findings as SARIF 2.1.0"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-download"/></svg>SARIF</button>
+          <button id="exportCdx" class="btn-sm" type="button" title="Export the CycloneDX SBOM of components"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-download"/></svg>CycloneDX</button>
+          <button id="exportRaw" class="btn-sm" type="button" title="Download everything recorded for this assessment as raw Markdown"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-file-down"/></svg>Raw .md</button>
+        </div>
+      </div>
+      <div id="graphStats" class="graph-stats"></div>
+      <h3 class="sub-h" data-i18n="graph.map">Interactive map</h3>
+      <div class="tm-root" id="tmRoot">
+        <div class="tm-toolbar">
+          <div class="tm-views" role="tablist" aria-label="Evidence Graph views">
+            <button class="tm-view-btn active" type="button" data-mode="investigation" title="Everything recorded for this assessment, noise-reduced">Full Investigation</button>
+            <button class="tm-view-btn" type="button" data-mode="evidence" title="Finding → evidence → function/sink/source chains">Evidence Chain</button>
+            <button class="tm-view-btn" type="button" data-mode="runtime" title="Runtime activity from Procmon and debugging">Runtime Activity</button>
+            <button class="tm-view-btn" type="button" data-mode="artifact" title="Uploaded files, parsers, tools and linked results">Artifact View</button>
+            <button class="tm-view-btn" type="button" data-mode="attack" title="Attack surface: imports, sources and sinks">Attack Surface</button>
+            <button class="tm-view-btn" type="button" data-mode="compact" title="High-relevance nodes only">Compact</button>
+          </div>
+          <div class="tm-controls-row">
+            <input id="graphSearch" class="tm-search" type="search" placeholder="Search the graph: function, path, finding, artifact…" autocomplete="off">
+            <select id="graphSeverity" class="tm-select" title="Severity filter">
+              <option value="">Severity: all</option><option value="critical">Critical</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option><option value="info">Info</option>
+            </select>
+            <select id="graphStatus" class="tm-select" title="Status filter">
+              <option value="">Status: all</option><option value="confirmed">Confirmed</option><option value="needs_validation">Needs validation</option><option value="needs_dynamic_validation">Needs dynamic validation</option><option value="suspicious">Suspicious</option><option value="hypothesis">Hypothesis</option><option value="false_positive">False positive</option>
+            </select>
+            <select id="graphSource" class="tm-select" title="Data source filter">
+              <option value="">Source: all</option><option value="static">static</option><option value="ghidra">ghidra</option><option value="x64dbg">x64dbg</option><option value="procmon">procmon</option><option value="llm">llm</option><option value="floss">floss</option><option value="tshark">tshark</option><option value="user_upload">user_upload</option>
+            </select>
+            <label class="tm-toggle"><input id="graphShowNoise" type="checkbox"> Show noise</label>
+            <button id="gvReset" class="tm-btn" type="button" title="Reset filters"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-refresh"/></svg>Filters</button>
+            <button id="gvResetLayout" class="tm-btn" type="button" title="Reset node positions"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-target"/></svg>Layout</button>
+            <button id="gvFit" class="tm-btn" type="button" title="Fit map to view"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-maximize"/></svg>Fit</button>
+            <button id="gvFullscreen" class="tm-btn tm-btn-solid" type="button" title="Open or close the fullscreen workspace"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-maximize"/></svg>Fullscreen</button>
+          </div>
+          <details class="tm-types" id="tmTypeFilters"><summary><svg class="ic ic-sm" aria-hidden="true"><use href="#i-chevron-right"/></svg>Node types<span class="tm-count" id="tmTypeCount"></span></summary><div class="tm-types-grid">
+            <label class="tm-type-chip active" data-t="binary"><input type="checkbox" class="gv-filter" data-t="binary" checked hidden><span class="tm-dot"></span>Binaries</label>
+            <label class="tm-type-chip active" data-t="function"><input type="checkbox" class="gv-filter" data-t="function" checked hidden><span class="tm-dot"></span>Functions</label>
+            <label class="tm-type-chip active" data-t="import"><input type="checkbox" class="gv-filter" data-t="import" checked hidden><span class="tm-dot"></span>Import</label>
+            <label class="tm-type-chip active" data-t="sink"><input type="checkbox" class="gv-filter" data-t="sink" checked hidden><span class="tm-dot"></span>Sink</label>
+            <label class="tm-type-chip active" data-t="source"><input type="checkbox" class="gv-filter" data-t="source" checked hidden><span class="tm-dot"></span>Source</label>
+            <label class="tm-type-chip active" data-t="finding"><input type="checkbox" class="gv-filter" data-t="finding" checked hidden><span class="tm-dot"></span>Finding</label>
+            <label class="tm-type-chip active" data-t="evidence"><input type="checkbox" class="gv-filter" data-t="evidence" checked hidden><span class="tm-dot"></span>Evidence</label>
+            <label class="tm-type-chip active" data-t="component"><input type="checkbox" class="gv-filter" data-t="component" checked hidden><span class="tm-dot"></span>Components</label>
+            <label class="tm-type-chip inactive" data-t="string"><input type="checkbox" class="gv-filter" data-t="string" hidden><span class="tm-dot"></span>Strings</label>
+            <label class="tm-type-chip active" data-t="artifact"><input type="checkbox" class="gv-filter" data-t="artifact" checked hidden><span class="tm-dot"></span>Artifact</label>
+            <label class="tm-type-chip active" data-t="toolcall"><input type="checkbox" class="gv-filter" data-t="toolcall" checked hidden><span class="tm-dot"></span>Tool call</label>
+            <label class="tm-type-chip active" data-t="process"><input type="checkbox" class="gv-filter" data-t="process" checked hidden><span class="tm-dot"></span>Processes</label>
+            <label class="tm-type-chip active" data-t="procmon_op"><input type="checkbox" class="gv-filter" data-t="procmon_op" checked hidden><span class="tm-dot"></span>Operations</label>
+            <label class="tm-type-chip active" data-t="file_path"><input type="checkbox" class="gv-filter" data-t="file_path" checked hidden><span class="tm-dot"></span>Files</label>
+            <label class="tm-type-chip active" data-t="registry_key"><input type="checkbox" class="gv-filter" data-t="registry_key" checked hidden><span class="tm-dot"></span>Registry</label>
+            <label class="tm-type-chip active" data-t="network_endpoint"><input type="checkbox" class="gv-filter" data-t="network_endpoint" checked hidden><span class="tm-dot"></span>Network</label>
+            <label class="tm-type-chip active" data-t="dynamic_event"><input type="checkbox" class="gv-filter" data-t="dynamic_event" checked hidden><span class="tm-dot"></span>Dynamic events</label>
+            <label class="tm-type-chip active" data-t="risk"><input type="checkbox" class="gv-filter" data-t="risk" checked hidden><span class="tm-dot"></span>Risk</label>
+          </div></details>
+        </div>
+        <div id="graphInsight" class="tm-insight"></div>
+        <div class="tm-ai-bar">
+          <span class="tm-ai-kicker"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-sparkle"/></svg>AI on the graph</span>
+          <input id="graphAskInput" class="tm-ai-input" type="text" placeholder="Ask the AI something about the selected node, the subgraph, or the map…">
+          <button id="graphAskBtn" class="tm-btn tm-btn-solid" type="button">Ask</button>
+        </div>
+        <div id="graphWorkspace" class="tm-workspace">
+          <div class="tm-canvas-panel" id="tmCanvasPanel">
+            <svg id="graphViz" class="tm-canvas" viewBox="0 0 1320 820" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="tm-canvas-toolbar">
+              <button id="gvFullscreenIcon" class="tm-icon-btn" type="button" title="Fullscreen" aria-label="Fullscreen"><svg class="ic" aria-hidden="true"><use href="#i-maximize"/></svg></button>
+            </div>
+            <div id="tmLegend" class="tm-legend"></div>
+            <div class="tm-canvas-hint">click+drag background to pan · scroll wheel to zoom · click a node to focus</div>
+          </div>
+          <aside id="graphNodeDetails" class="tm-dossier-panel"><div class="tm-dossier-empty">Click a map node to open the investigative dossier: why it matters, relationships, linked evidence and quick actions.</div></aside>
+        </div>
+      </div>
+      <h3 class="sub-h" data-i18n="graph.sinks">Unvalidated sinks</h3>
+      <div id="graphSinks" class="g-table"><div class="findings-empty">—</div></div>
+      <h3 class="sub-h" data-i18n="graph.runtime">Runtime / Procmon summary</h3>
+      <div id="graphRuntime" class="g-table"><div class="findings-empty">No Procmon events loaded.</div></div>
+      <h3 class="sub-h" data-i18n="graph.artifactsGraph">Uploaded artifacts in the graph</h3>
+      <div id="graphArtifacts" class="g-table"><div class="findings-empty">No artifacts uploaded.</div></div>
+      <h3 class="sub-h" data-i18n="graph.highSignal">High-signal nodes</h3>
+      <div id="graphHighSignal" class="g-table"><div class="findings-empty">Run static analysis or import artifacts first.</div></div>
+      <h3 class="sub-h" data-i18n="graph.weak">HIGH/CRITICAL findings with insufficient evidence (&lt; 2 items)</h3>
+      <div id="graphWeak" class="g-table"><div class="findings-empty">—</div></div>
+      <h3 class="sub-h" data-i18n="graph.chains">Source → sink chains</h3>
+      <div id="graphChains" class="g-table"><div class="findings-empty">—</div></div>
+      <h3 class="sub-h" data-i18n="graph.diff">Version diff (Evidence Graph)</h3>
+      <div class="diff-row">
+        <select id="diffOther" class="field-in"><option value="">— choose the "previous" project (A) —</option></select>
+        <button id="runGraphDiff" class="solid-btn" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-layout"/></svg>Compare</button>
+      </div>
+      <div id="graphDiff" class="g-table"></div>
+    </section>
+
+    <!-- PLAYBOOK -->
+    <section id="view-playbooks" class="view scroll">
+      <div class="view-head">
+        <div><h2 data-i18n="view.playbooks">Playbooks</h2><p class="muted">Repeatable analysis procedures. Running one guides the agent through the expected steps, respecting the safety mode.</p></div>
+        <button id="pbNewBtn" class="btn-sm" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-plus"/></svg>Custom playbook</button>
+      </div>
+      <div id="pbEditor" class="pb-editor" hidden>
+        <h3 class="sub-h">New custom playbook</h3>
+        <div class="pb-editor-grid">
+          <label>Name<input id="pbName" type="text" placeholder="E.g. Quick network triage"></label>
+          <label>ID (optional)<input id="pbId" type="text" placeholder="auto from name (a-z, 0-9, -, _)"></label>
+          <label>Safety mode
+            <select id="pbSafety"><option value="safe">safe</option><option value="assisted">assisted</option><option value="autonomous">autonomous</option><option value="dangerous">dangerous</option></select>
+          </label>
+          <label class="pb-check"><input id="pbDynamic" type="checkbox"> Requires dynamic analysis</label>
+        </div>
+        <label>Description<input id="pbDesc" type="text" placeholder="What this playbook does"></label>
+        <label>Steps (one per line)<textarea id="pbSteps" rows="5" placeholder="recon&#10;strings_review&#10;graph_projection"></textarea></label>
+        <label>Linked modules<div id="pbModules" class="pb-mod-checks"></div></label>
+        <label>System prompt (optional)<textarea id="pbPrompt" rows="3" placeholder="Guiding instructions for the agent"></textarea></label>
+        <div class="pb-editor-actions">
+          <button id="pbSaveBtn" class="solid-btn" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-check"/></svg>Save playbook</button>
+          <button id="pbCancelBtn" class="btn-sm" type="button">Cancel</button>
+          <span id="pbEditorMsg" class="faint-note"></span>
+        </div>
+      </div>
+      <div id="playbooksList" class="pb-list"><div class="findings-empty">Loading…</div></div>
+    </section>
+
+    <!-- EVIDENCE -->
+    <section id="view-evidence" class="view scroll">
+      <div class="view-head"><div><h2 data-i18n="view.evidence">Evidence</h2><p>Each evidence item has a stable ID (E-NNNN) and tracks which tool/source it came from. Findings cite it via <code>evidence_refs</code>.</p></div></div>
+      <div class="ev-filter"><input id="evSearch" class="field-in" placeholder="filter by ID, source, location, text…"><button id="evLocalAi" class="btn-sm" type="button" title="Summarise the filtered evidence with the local model"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-sparkle"/></svg>Local AI</button></div>
+      <div id="evAiOut" class="local-ai-out" hidden></div>
+      <div id="evidenceList" class="evidence-list"><div class="findings-empty">No evidence yet.</div></div>
+    </section>
+
+    <!-- TOOL LOG -->
+    <section id="view-toollog" class="view scroll">
+      <div class="view-head"><div><h2 data-i18n="view.toollog">Tool log</h2><p>History of MCP tool calls for this investigation, without having to reread the chat.</p></div></div>
+      <div class="ev-filter"><input id="tlSearch" class="field-in" placeholder="filter by tool, arguments, outcome…"></div>
+      <div id="toollogList" class="toollog-list"><div class="findings-empty">No calls recorded.</div></div>
+    </section>
+
+    <!-- STRINGS -->
+    <section id="view-strings" class="view scroll">
+      <div class="view-head"><div><h2 data-i18n="view.strings">Strings</h2><p>Strings extracted statically from the binary (min 6 chars). Search paths, URLs, keys, commands, tokens.</p></div></div>
+      <div class="ev-filter"><input id="strSearch" class="field-in" placeholder="filter…"><button id="strLocalAi" class="btn-sm" type="button" title="Summarise the filtered strings with the local model"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-sparkle"/></svg>Local AI</button><span id="strTotal" class="faint-note"></span></div>
+      <div id="strAiOut" class="local-ai-out" hidden></div>
+      <div id="stringsList" class="strings-list"><div class="findings-empty">No strings available — set the target.</div></div>
+    </section>
+
+    <!-- ARTIFACTS -->
+    <section id="view-artifacts" class="view scroll">
+      <div class="view-head"><div><h2 data-i18n="view.artifacts">Artifacts</h2><p>Upload files to analyze (Procmon XML, pcap, logs, dumps). Files stay inside the project and can be passed to MCP servers or the agent. No file is executed.</p></div></div>
+      <div id="artDrop" class="art-drop">
+        <input id="artFile" type="file" hidden>
+        <div class="art-drop-inner">
+          <div class="art-drop-icon"><svg class="ic ic-xl" aria-hidden="true"><use href="#i-upload-cloud"/></svg></div>
+          <div class="art-drop-text"><strong>Drop a file here</strong> or <label for="artFile" id="artBrowse" class="btn-link">choose from computer</label></div>
+          <div class="faint-note">Procmon XML, pcap, logs, binary dumps — nothing is executed</div>
+        </div>
+      </div>
+      <div id="artStatus" class="art-status" hidden></div>
+      <div id="artifactsList" class="artifacts-list"><div class="findings-empty">No artifacts uploaded.</div></div>
+    </section>
+
+    <!-- IMPORTS -->
+    <section id="view-imports" class="view scroll">
+      <div class="view-head"><div><h2 data-i18n="view.imports">Imports</h2><p>APIs imported by the binary. Dangerous APIs are highlighted by CWE class.</p></div></div>
+      <div class="ev-filter"><input id="impSearch" class="field-in" placeholder="filter…"></div>
+      <div id="importsList" class="imports-list"><div class="findings-empty">No imports available — set the target.</div></div>
+    </section>
+
+    <!-- JOBS -->
+    <section id="view-jobs" class="view scroll">
+      <div class="view-head">
+        <div>
+          <h2>Jobs</h2>
+          <p>Long-running work decoupled from the chat. Jobs survive a reload and are restored at startup.</p>
+        </div>
+        <button id="jobsRefresh" class="btn-sm" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-refresh"/></svg>Refresh</button>
+      </div>
+      <div class="job-new">
+        <select id="jobKind" class="field-in" aria-label="Job type">
+          <option value="xref_enrich">Ghidra xref enrichment — resolve real call sites for candidate sinks</option>
+          <option value="source_to_sink">Source→sink analysis — build candidate dataflow chains</option>
+          <option value="finding_validation">Finding validation — deterministic status gating</option>
+          <option value="graph_sync">Evidence Graph sync — rebuild the graph from session state</option>
+          <option value="static_analysis">Static analysis — re-run the offline triage</option>
+          <option value="report_generation">Report generation — build the deterministic report</option>
+        </select>
+        <button id="jobSubmit" class="solid-btn" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-plus"/></svg>Queue job</button>
+      </div>
+      <div id="jobsList" class="jobs-list"></div>
+    </section>
+
+    <!-- REPORTS -->
+    <section id="view-reports" class="view scroll">
+      <div class="view-head">
+        <div>
+          <h2>Reports &amp; exports</h2>
+          <p>One deterministic report, built from the structured findings and the target profile. It is complete with no LLM configured; AI enrichment, when enabled, is additive and never changes the numbers.</p>
+        </div>
+      </div>
+      <div id="reportsBody" class="reports"></div>
+    </section>
+
+    <!-- SERVERS -->
+    <section id="view-servers" class="view scroll">
+      <div class="view-head"><div><h2>MCP servers &amp; tools</h2><p>Enable only the servers you need; expand to see the available tools.</p></div></div>
+      <div id="serversList" class="servers-list">…</div>
+    </section>
+
+    <!-- HOWTO -->
+    <section id="view-howto" class="view scroll">
+      <div class="view-head"><div><h2>How ReTrace works</h2><p>ReTrace is a local binary-audit workspace: it combines deterministic static analysis, MCP tools and an optional LLM agent.</p></div></div>
+      <div class="how-grid">
+        <article class="how-card"><span class="how-k">1</span><h3>Project</h3><p>Create or open a project. Each project stores chat, findings, evidence, tool logs and LLM usage estimates in SQLite, with a compatibility JSON mirror.</p></article>
+        <article class="how-card"><span class="how-k">2</span><h3>Target</h3><p>Set the binary in the Projects section. Offline static analysis starts immediately: hashes, strings, imports, hardening, attack surface and first findings.</p></article>
+        <article class="how-card"><span class="how-k">3</span><h3>Optional AI</h3><p>With Anthropic or a local model you can ask for deeper analysis. The agent uses the available tools, updates findings and shows its operational reasoning in the chat.</p></article>
+        <article class="how-card"><span class="how-k">4</span><h3>MCP tools</h3><p>MCP servers expose functions like decompilation, xrefs, advanced strings, mitigation audits, diffing and debugging. You can enable or disable them from Servers &amp; tools.</p></article>
+        <article class="how-card"><span class="how-k">5</span><h3>Findings &amp; evidence</h3><p>Findings have a status, severity, CWE, location and references to stable evidence. The Evidence section keeps the technical proof so it's never lost in the chat.</p></article>
+        <article class="how-card"><span class="how-k">6</span><h3>Report</h3><p>The Report button generates an exportable draft. Pre-export warnings help distinguish confirmed findings from hypotheses and weak observations.</p></article>
+      </div>
+      <div class="how-panel">
+        <h3>Claude API cost estimate</h3>
+        <p>When the provider is Anthropic, the API returns the tokens used by the request. ReTrace stores them and shows an estimate in the top-right corner and as a chat note after each call.</p>
+        <p>The estimate is calculated locally from the configured model's per-million-token price list. It does not include any discounts, marketplace pricing, enterprise plans, or server-side tool costs not used by ReTrace.</p>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="view-projects" class="view scroll">
+      <div class="view-head"><div><h2 data-i18n="view.projects">Projects</h2><p>Stored in local SQLite, with a compatibility JSON mirror.</p></div></div>
+      <div class="proj-new">
+        <input id="projName" class="field-in" placeholder="new project name…">
+        <button id="projCreate" class="solid-btn" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-plus"/></svg>Create</button>
+      </div>
+      <div class="target-box">
+        <label>Target binary for the active project (static analysis starts automatically):</label>
+        <div class="target-row">
+          <input id="targetPath" class="field-in mono" placeholder="C:\\path\\to\\target.exe">
+          <button id="targetBtn" class="solid-btn" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-target"/></svg>Set &amp; analyze</button>
+        </div>
+        <div id="targetDrop" class="art-drop target-drop" role="button" tabindex="0" aria-label="Upload target binary">
+          <input id="targetFile" type="file" hidden>
+          <div class="art-drop-inner">
+            <div class="art-drop-icon">BIN</div>
+            <div class="art-drop-text"><strong>Drop the binary here</strong> or <label for="targetFile" id="targetBrowse" class="btn-link">choose from computer</label></div>
+            <div class="faint-note">The file is copied into the project workspace and analyzed immediately.</div>
+          </div>
+        </div>
+        <div id="targetUploadStatus" class="art-status" hidden></div>
+      </div>
+      <div class="target-box">
+        <label>Patch diff — compare two versions (A = old, B = new):</label>
+        <div class="target-row"><input id="diffA" class="field-in mono" placeholder="A: C:\\path\\to\\old.exe"></div>
+        <div class="target-row" style="margin-top:6px"><input id="diffB" class="field-in mono" placeholder="B: C:\\path\\to\\new.exe"><button id="diffBtn" class="solid-btn" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-layout"/></svg>Compare</button></div>
+      </div>
+      <div id="projects" class="projects-list"></div>
+    </section>
+  </div>
+</main>
+
+<!-- modals -->
+<div id="reportModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+  <div class="modal-card">
+    <div class="modal-top"><span id="reportModalTitle">Report preview</span>
+      <div class="rx-actions">
+        <button class="rx" data-fmt="html" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-download"/></svg>HTML</button>
+        <button class="rx" data-fmt="docx" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-download"/></svg>DOCX</button>
+        <button class="rx" data-fmt="pdf" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-download"/></svg>PDF</button>
+        <button id="dlTemplate" class="rx" type="button" title="Download the blank .docx template">Template</button>
+        <button id="closeReport" class="x" type="button" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+    <div id="reportBody" class="report-body md"></div>
+  </div>
+</div>
+
+<div id="findingModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="findingModalTitle">
+  <div class="modal-card wide">
+    <div class="modal-top"><span id="findingModalTitle">Vulnerability case file</span><button id="closeFinding" class="x" type="button" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <div id="findingBody" class="modal-body"></div>
+  </div>
+</div>
+
+<div id="settingsModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+  <div class="modal-card narrow">
+    <div class="modal-top"><span id="settingsModalTitle">Settings</span><button id="closeSettings" class="x" type="button" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <div class="modal-body">
+      <div class="set-section">
+        <h3 id="provHeading">Language model provider</h3>
+        <div class="seg" role="radiogroup" aria-labelledby="provHeading">
+          <label><input type="radio" name="prov" value="auto"><span>Auto</span></label>
+          <label><input type="radio" name="prov" value="local"><span>Local</span></label>
+          <label><input type="radio" name="prov" value="anthropic"><span>Anthropic</span></label>
+          <label><input type="radio" name="prov" value="none"><span>None</span></label>
+        </div>
+      </div>
+      <div class="set-section">
+        <h3>Local model <span class="faint-note">Ollama or any OpenAI-compatible endpoint</span></h3>
+        <div class="field"><label for="setLocalModel">Model</label><input id="setLocalModel" placeholder="qwen2.5:14b"></div>
+        <div class="field"><label for="setLocalUrl">Base URL</label><input id="setLocalUrl" placeholder="http://127.0.0.1:11434/v1"></div>
+      </div>
+      <div class="set-section">
+        <h3>Anthropic</h3>
+        <div class="field"><label for="setAnthModel">Model</label><input id="setAnthModel" placeholder="claude-sonnet-4-5"></div>
+        <div class="field"><label for="setAnthKey">API key</label><input id="setAnthKey" type="password" placeholder="sk-ant-…" autocomplete="off"></div>
+      </div>
+      <div class="set-section">
+        <h3 id="safetyHeading">Safety mode</h3>
+        <div class="seg" role="radiogroup" aria-labelledby="safetyHeading">
+          <label><input type="radio" name="safety" value="safe"><span>Safe</span></label>
+          <label><input type="radio" name="safety" value="assisted"><span>Assisted</span></label>
+          <label><input type="radio" name="safety" value="autonomous"><span>Autonomous</span></label>
+        </div>
+        <p>Safe approves every non-read action. Assisted approves run, patch, write and network actions. Autonomous approves nothing — the agent acts without asking.</p>
+      </div>
+    </div>
+    <div class="set-foot">
+      <label class="check"><input type="checkbox" id="setPersist"> Save in config.py</label>
+      <span id="setMsg" class="set-msg"></span>
+      <button id="closeSettings2" class="set-cancel" type="button">Cancel</button>
+      <button id="saveSettings" class="set-save" type="button"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-check"/></svg>Apply</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="palette" class="palette" hidden role="dialog" aria-modal="true" aria-label="Command palette and global search">
+  <div class="palette-card">
+    <div class="palette-input-row">
+      <svg class="ic ic-lg" aria-hidden="true"><use href="#i-search"/></svg>
+      <input id="paletteInput" type="text" autocomplete="off" spellcheck="false"
+             placeholder="Search the assessment, or type a command…"
+             aria-controls="paletteResults" aria-expanded="true" role="combobox" aria-autocomplete="list">
+      <button id="paletteClose" class="palette-x" type="button" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
+    </div>
+    <div id="paletteResults" class="palette-results" role="listbox" aria-label="Results"></div>
+    <div class="palette-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+      <span><kbd>↵</kbd> Open</span>
+      <span><kbd>Esc</kbd> Close</span>
+    </div>
+  </div>
+</div>
+
+<script src="/app.js?v=8.0"></script>
+<script src="/assessment.js?v=8.0"></script>
+<script src="/palette.js?v=8.0"></script>
+</body>
+</html>

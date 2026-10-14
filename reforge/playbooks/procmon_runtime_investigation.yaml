@@ -1,0 +1,21 @@
+id: procmon_runtime_investigation
+name: Procmon Runtime Investigation
+description: "Analyse a Procmon XML and link processes, files, registry and network to findings, evidence and artifacts."
+safety_mode: safe
+requires_dynamic: false
+steps:
+  - procmon_parse
+  - process_tree_reconstruction
+  - operation_clustering
+  - object_hotspot_review
+  - graph_projection
+  - finding_runtime_validation
+expected_outputs: [runtime_summary, process_nodes, procmon_operation_clusters, evidence_refs, validation_notes]
+min_validation:
+  require_evidence_id: true
+  require_runtime_context: true
+system_prompt: >
+  Use Procmon as runtime evidence that has already been collected. Reconstruct the process tree,
+  the high-signal operations and the file/registry/network objects, and tie every conclusion to
+  evidence. Do not promote a finding without a clear link between event, process and hypothesis.
+modules: ["runtime","artifacts","graph"]

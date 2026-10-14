@@ -1,0 +1,186 @@
+{
+  "mcpServers": {
+    "ghidra": {
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "PATH/TO/GhidraMCP/bridge_mcp_ghidra.py",
+        "--ghidra-server",
+        "http://127.0.0.1:8080/"
+      ],
+      "comment": "External: GhidraMCP (https://github.com/LaurieWired/GhidraMCP), installed separately. Replace the 'PATH/TO/GhidraMCP/bridge_mcp_ghidra.py' placeholder with the absolute path of the bridge script. The bridge talks to the Ghidra plugin over HTTP (default :8080): start Ghidra with the plugin loaded before using this server.",
+      "tags": [
+        "decompile",
+        "disassemble",
+        "xref",
+        "imports",
+        "strings",
+        "functions",
+        "patch",
+        "static",
+        "call_graph"
+      ],
+      "risk_class": "safe_read",
+      "cost": "medium"
+    },
+    "x64dbg": {
+      "command": "python",
+      "args": [
+        "servers/x64dbg.py"
+      ],
+      "comment": "Start x64dbg with the HTTP plugin and the target loaded. This wrapper also exposes x64dbg_process_state / x64dbg_check_consistent_state: use them before declaring a process terminated.",
+      "tags": [
+        "debug",
+        "dynamic",
+        "breakpoint",
+        "memory",
+        "registers",
+        "stack",
+        "runtime",
+        "step",
+        "trace",
+        "process-state",
+        "debuggee-liveness"
+      ],
+      "risk_class": "dynamic_execution",
+      "cost": "high"
+    },
+    "procmon": {
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "servers/procmon_mcp.py"
+      ],
+      "comment": "ReTrace's own Procmon XML server (servers/procmon_mcp.py). Reads standard Sysinternals exports (UTF-8/BOM) with streaming iterparse.",
+      "tags": [
+        "process",
+        "filesystem",
+        "registry",
+        "network",
+        "dynamic",
+        "monitor",
+        "event"
+      ],
+      "risk_class": "safe_read",
+      "cost": "medium"
+    },
+    "floss": {
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "servers/floss_mcp.py"
+      ],
+      "timeout": 420,
+      "comment": "Obfuscated strings (stack/tight/decoded). Requires: pip install flare-floss. Fast by default; the slow DECODED analysis is opt-in with include_decoded=true.",
+      "tags": [
+        "strings",
+        "obfuscated",
+        "stack_strings",
+        "tight_strings",
+        "decoded",
+        "floss"
+      ],
+      "risk_class": "safe_read",
+      "cost": "slow"
+    },
+    "tshark": {
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "servers/tshark_mcp.py"
+      ],
+      "comment": "pcap analysis (protocols, HTTP, DNS, conversations). Requires tshark/Wireshark on the PATH.",
+      "tags": [
+        "network",
+        "pcap",
+        "traffic",
+        "packet",
+        "protocol",
+        "capture",
+        "dns",
+        "http"
+      ],
+      "risk_class": "sensitive_read",
+      "cost": "medium"
+    },
+    "hardening": {
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "servers/hardening_mcp.py"
+      ],
+      "comment": "PE/ELF mitigation audit (DEP/ASLR/GS/CFG/SafeSEH/RELRO...). pefile only, no external tool.",
+      "tags": [
+        "mitigation",
+        "nx",
+        "dep",
+        "aslr",
+        "canary",
+        "gs",
+        "cfg",
+        "safeseh",
+        "pie",
+        "relro",
+        "protection"
+      ],
+      "risk_class": "safe_read",
+      "cost": "fast"
+    },
+    "libs": {
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "servers/libs_mcp.py"
+      ],
+      "comment": "Third-party library fingerprints plus optional NVD CVE lookup. Pure Python, no external tool.",
+      "tags": [
+        "library",
+        "component",
+        "third_party",
+        "cve",
+        "dependency",
+        "version"
+      ],
+      "risk_class": "safe_read",
+      "cost": "medium"
+    },
+    "crypto": {
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "servers/crypto_mcp.py"
+      ],
+      "comment": "Weak crypto and hardcoded secrets (redacted). Pure Python, no external tool.",
+      "tags": [
+        "crypto",
+        "cipher",
+        "hash",
+        "entropy",
+        "weak",
+        "key",
+        "rng",
+        "random"
+      ],
+      "risk_class": "safe_read",
+      "cost": "fast"
+    },
+    "bindiff": {
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "servers/bindiff_mcp.py"
+      ],
+      "comment": "Security diff between two versions of a binary (patch triage). Pure Python.",
+      "tags": [
+        "diff",
+        "compare",
+        "delta",
+        "patch",
+        "version",
+        "binary_diff"
+      ],
+      "risk_class": "safe_read",
+      "cost": "medium"
+    }
+  }
+}

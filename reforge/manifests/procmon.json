@@ -1,0 +1,71 @@
+{
+  "manifest_version": 1,
+  "server": "procmon",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Streaming parser for Sysinternals Procmon XML exports.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "procmon_behavior_summary",
+      "risk_class": "safe_read",
+      "capability": "Summarize behavior from loaded Procmon events: process start, loaded images, files, registry.",
+      "cost": "medium"
+    },
+    {
+      "name": "procmon_dll_hijack_candidates",
+      "risk_class": "safe_read",
+      "capability": "Find DLL search-order hijacking candidates from the runtime trace (CWE-427).",
+      "cost": "medium"
+    },
+    {
+      "name": "procmon_export_graph_events",
+      "risk_class": "write_or_patch",
+      "capability": "Return a compact graph-ready projection of the loaded Procmon summary.",
+      "cost": "medium"
+    },
+    {
+      "name": "procmon_insecure_file_usage",
+      "risk_class": "safe_read",
+      "capability": "Find file operations in user-writable locations (CWE-732, CWE-427, CWE-377).",
+      "cost": "medium"
+    },
+    {
+      "name": "procmon_load_artifact",
+      "risk_class": "safe_read",
+      "capability": "Alias for procmon_load_xml used by artifact routers that pass a resolved workspace path.",
+      "cost": "medium"
+    },
+    {
+      "name": "procmon_load_xml",
+      "risk_class": "safe_read",
+      "capability": "Load a Procmon XML export and build an in-memory searchable event index.",
+      "cost": "medium"
+    },
+    {
+      "name": "procmon_query_events",
+      "risk_class": "safe_read",
+      "capability": "Query loaded Procmon events by operation/path/result/detail/process.",
+      "cost": "medium"
+    },
+    {
+      "name": "procmon_summary",
+      "risk_class": "safe_read",
+      "capability": "Return summary of the currently loaded Procmon XML.",
+      "cost": "medium"
+    },
+    {
+      "name": "procmon_toctou_candidates",
+      "risk_class": "safe_read",
+      "capability": "Find time-of-check/time-of-use candidates (CWE-367).",
+      "cost": "medium"
+    },
+    {
+      "name": "procmon_va_summary",
+      "risk_class": "safe_read",
+      "capability": "Run all the vulnerability-assessment views over the loaded trace in one call: DLL hijack",
+      "cost": "medium"
+    }
+  ]
+}

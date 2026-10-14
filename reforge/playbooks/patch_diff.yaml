@@ -1,0 +1,19 @@
+id: patch_diff
+name: Patch Diff
+description: "Compare two versions of the same binary to identify security-relevant changes."
+safety_mode: safe
+requires_dynamic: false
+steps:
+  - load_both_versions
+  - binary_diff
+  - changed_function_review
+  - finding_validation
+  - report_generation
+expected_outputs: [diff_summary, changed_functions, security_relevant_changes, report]
+min_validation:
+  require_evidence_id: true
+  require_callsite: false
+system_prompt: >
+  Compare two versions of the binary. Highlight added/removed/changed functions and the
+  security-relevant changes (new sinks, validations added or removed).
+modules: ["analysis"]

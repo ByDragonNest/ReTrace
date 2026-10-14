@@ -1,0 +1,86 @@
+{
+  "manifest_version": 1,
+  "server": "ghidra",
+  "version": "unknown",
+  "author": "LaurieWired/GhidraMCP (third party)",
+  "description": "Static analysis via the external GhidraMCP bridge. Third party: the tool list cannot be enumerated from here, so this manifest CLASSIFIES rather than allow-lists. Pin it to a reviewed tool list once you have one.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [
+    "Ghidra with the GhidraMCP plugin on :8080"
+  ],
+  "allow_undeclared_tools": true,
+  "tools": [
+    {
+      "name": "assemble",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "create_label",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "patch_bytes",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "rename_data",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "rename_function",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "rename_function_by_address",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "rename_variable",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "set_decompiler_comment",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "set_disassembly_comment",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "set_function_prototype",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "set_local_variable_type",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    },
+    {
+      "name": "write_memory",
+      "risk_class": "write_or_patch",
+      "capability": "Modifies the Ghidra project database or the target bytes.",
+      "cost": "fast"
+    }
+  ]
+}

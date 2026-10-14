@@ -1,0 +1,53 @@
+{
+  "manifest_version": 1,
+  "server": "reach",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Call-graph reachability via angr. CPU and memory intensive.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "build_cfg",
+      "risk_class": "safe_read",
+      "capability": "Build and cache the control-flow graph of a binary. Every other tool in this server needs it,",
+      "cost": "medium"
+    },
+    {
+      "name": "clear_cache",
+      "risk_class": "safe_read",
+      "capability": "Drop the cached CFGs. Use after recompiling or patching the target, otherwise the analysis",
+      "cost": "medium"
+    },
+    {
+      "name": "find_input_to_sink_flow",
+      "risk_class": "safe_read",
+      "capability": "Check whether a data-flow path plausibly exists between an input source (recv, ReadFile,",
+      "cost": "medium"
+    },
+    {
+      "name": "function_callers",
+      "risk_class": "safe_read",
+      "capability": "List the direct callers of a function, with their addresses. The quick lookup for",
+      "cost": "medium"
+    },
+    {
+      "name": "paths_to_address",
+      "risk_class": "safe_read",
+      "capability": "Same as paths_to_sink but for an arbitrary address \u2014 use it when Ghidra has pointed you at",
+      "cost": "medium"
+    },
+    {
+      "name": "paths_to_sink",
+      "risk_class": "safe_read",
+      "capability": "Show the call chains that lead from an entry point to a specific dangerous function.",
+      "cost": "medium"
+    },
+    {
+      "name": "reachable_sinks",
+      "risk_class": "safe_read",
+      "capability": "List which dangerous functions are actually REACHABLE in the call graph, and which are not.",
+      "cost": "medium"
+    }
+  ]
+}

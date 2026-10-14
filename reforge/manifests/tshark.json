@@ -1,0 +1,35 @@
+{
+  "manifest_version": 1,
+  "server": "tshark",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "PCAP analysis via the external tshark binary.",
+  "default_risk_class": "sensitive_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "tshark_conversations",
+      "risk_class": "sensitive_read",
+      "capability": "TCP conversations (endpoints, packets, bytes) in a capture file.",
+      "cost": "medium"
+    },
+    {
+      "name": "tshark_dns",
+      "risk_class": "sensitive_read",
+      "capability": "DNS queries in a capture file.",
+      "cost": "medium"
+    },
+    {
+      "name": "tshark_http",
+      "risk_class": "network",
+      "capability": "HTTP requests in a capture: destination IP, host, method, URI, user-agent.",
+      "cost": "medium"
+    },
+    {
+      "name": "tshark_protocols",
+      "risk_class": "sensitive_read",
+      "capability": "Protocol hierarchy of a capture file (which protocols and volumes are present).",
+      "cost": "medium"
+    }
+  ]
+}

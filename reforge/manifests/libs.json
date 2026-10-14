@@ -1,0 +1,17 @@
+{
+  "manifest_version": 1,
+  "server": "libs",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Third-party component fingerprinting from version banners, with optional NVD lookup.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "fingerprint_libraries",
+      "risk_class": "safe_read",
+      "capability": "Detect embedded third-party libraries and their versions from a binary's version",
+      "cost": "medium"
+    }
+  ]
+}

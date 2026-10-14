@@ -1,0 +1,24 @@
+# ============================================================================
+#  Dipendenze opzionali — installa solo quelle dei server che attivi davvero.
+#      pip install -r requirements-optional.txt
+#  oppure una riga alla volta.
+#
+#  NB: angr NON e qui. Vedi requirements-angr.txt: va in un venv separato.
+# ============================================================================
+
+# --- frida_mcp: tracing API a runtime ---------------------------------------
+# frida e frida-tools devono avere major version compatibili: installali
+# insieme, mai uno solo. Su Windows serve eseguire come amministratore per
+# attach a processi elevati.
+frida>=16.0.0
+frida-tools>=12.0.0
+
+# --- floss_mcp: recupero stringhe offuscate ---------------------------------
+# Installa l'eseguibile `floss` sul PATH. Il server lo invoca via subprocess,
+# non lo importa.
+flare-floss>=3.0.0
+
+# --- x64dbg.py, sottocomando `claude` ---------------------------------------
+# Serve SOLO se usi la modalita chat CLI integrata (`python x64dbg.py claude`).
+# Non serve per il funzionamento del server MCP.
+anthropic>=0.40.0

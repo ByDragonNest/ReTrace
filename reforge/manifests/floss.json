@@ -1,0 +1,17 @@
+{
+  "manifest_version": 1,
+  "server": "floss",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Obfuscated-string recovery. Invokes the external FLOSS binary.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "floss_obfuscated_strings",
+      "risk_class": "safe_read",
+      "capability": "Recover stack/tight strings and, optionally, decoded strings.",
+      "cost": "medium"
+    }
+  ]
+}

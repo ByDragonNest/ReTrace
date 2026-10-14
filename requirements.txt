@@ -1,0 +1,59 @@
+# ============================================================================
+#  ReTrace - core runtime dependencies
+#
+#  pyproject.toml is the single source of truth. This file is kept for
+#  environments that still install with `pip install -r`, and is verified
+#  against pyproject.toml by tests/test_packaging_and_state.py.
+#
+#  Preferred install:
+#      python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+#      pip install -e .                 # core
+#      pip install -e ".[all,dev]"      # everything an analyst workstation wants
+#
+#  Python 3.10+.
+# ----------------------------------------------------------------------------
+#  Previously this file declared only mcp, pefile and requests, while
+#  reforge/server.py imports fastapi/pydantic and reforge/__main__.py imports
+#  uvicorn at module level. `pip install -r requirements.txt && python -m reforge`
+#  - the documented install - failed with ModuleNotFoundError: No module named
+#  'fastapi'. See docs/gap-analysis.md P0-1.
+# ============================================================================
+
+# --- web layer ---------------------------------------------------------------
+fastapi>=0.110           # reforge/server.py
+uvicorn>=0.27            # reforge/__main__.py
+pydantic>=2.5            # reforge/server.py request models
+starlette>=0.37          # route matching in the default-deny authorization middleware
+python-multipart>=0.0.9  # required by FastAPI for the UploadFile routes
+
+# --- analysis core -----------------------------------------------------------
+PyYAML>=6.0              # reforge/playbook.py
+
+# ----------------------------------------------------------------------------
+#  The `mcp<2` pin is NOT optional.
+#
+#  From 2.0 the package renamed FastMCP to MCPServer and removed the
+#  `mcp.server.fastmcp` module. Every server in this repo uses
+#  `from mcp.server.fastmcp import FastMCP`, i.e. the v1 API. On mcp 2.x each
+#  one fails at import with:
+#      ModuleNotFoundError: No module named 'mcp.server.fastmcp'
+#  Migrating means changing imports and decorators in every server file:
+#  https://py.sdk.modelcontextprotocol.io/v2/migration/
+#  Verified working with mcp 1.29.1 and 1.30.0.
+# ----------------------------------------------------------------------------
+mcp>=1.2.0,<2
+
+jsonschema>=4.0          # MCP tool argument validation at the gateway
+pefile>=2023.2.7         # PE parsing: bindiff, hardening, attack_surface, winsec, driver
+requests>=2.31.0         # HTTP client for the x64dbg bridge
+
+# --- optional features -------------------------------------------------------
+#  Installed as extras, all imported lazily so the app starts without them:
+#      pip install -e ".[cloud]"      anthropic        - cloud model provider
+#      pip install -e ".[local]"      openai           - local / OpenAI-compatible provider
+#      pip install -e ".[reports]"    python-docx, xhtml2pdf - DOCX / PDF export
+#      pip install -e ".[knowledge]"  pypdf            - methodology PDF ingestion
+#      pip install -e ".[neo4j]"      neo4j            - optional Evidence Graph mirror
+#      pip install -e ".[servers]"    flare-floss      - obfuscated-string MCP server
+#      pip install -e ".[dev]"        pytest, ruff, mypy
+#  See requirements-angr.txt for reach_mcp (angr goes in its own virtualenv).

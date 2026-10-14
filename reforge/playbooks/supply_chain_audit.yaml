@@ -1,0 +1,21 @@
+id: supply_chain_audit
+name: Supply-chain Binary Audit
+description: "Identify embedded libraries and components, their probable versions and the risk from outdated ones."
+safety_mode: safe
+requires_dynamic: false
+steps:
+  - static_triage
+  - component_fingerprinting
+  - known_libs_lookup
+  - crypto_inventory
+  - sbom_export
+  - finding_validation
+  - report_generation
+expected_outputs: [components, sbom, outdated_risk, crypto_usage, report]
+min_validation:
+  require_evidence_id: true
+  require_callsite: false
+system_prompt: >
+  Run a supply-chain audit of the binary: component fingerprints, known libraries and probable
+  versions, cryptography in use, a minimal SBOM (CycloneDX where feasible) and obsolescence risk.
+modules: ["analysis","imports"]

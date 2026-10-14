@@ -1,0 +1,35 @@
+{
+  "manifest_version": 1,
+  "server": "attack_surface",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Dangerous-sink and input-source inventory from PE imports.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "attack_surface_summary",
+      "risk_class": "safe_read",
+      "capability": "START HERE for any binary. One-shot triage of the attack surface: format, architecture,",
+      "cost": "medium"
+    },
+    {
+      "name": "find_sink_imports",
+      "risk_class": "safe_read",
+      "capability": "List the imported APIs that map to a specific vulnerability class, with the associated CWE.",
+      "cost": "medium"
+    },
+    {
+      "name": "input_vectors",
+      "risk_class": "safe_read",
+      "capability": "Enumerate how untrusted data can reach the binary: network sockets, named pipes, RPC/COM,",
+      "cost": "medium"
+    },
+    {
+      "name": "list_exports",
+      "risk_class": "write_or_patch",
+      "capability": "List the exported functions of a DLL/shared object with their RVA. On a DLL every export is",
+      "cost": "medium"
+    }
+  ]
+}

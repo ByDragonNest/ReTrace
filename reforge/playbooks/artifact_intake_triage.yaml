@@ -1,0 +1,21 @@
+id: artifact_intake_triage
+name: Artifact Intake Triage
+description: "Classify an uploaded artifact and connect it to the Evidence Graph: parser, summary, evidence and generated nodes."
+safety_mode: safe
+requires_dynamic: false
+steps:
+  - artifact_identification
+  - parser_selection
+  - safe_metadata_extraction
+  - graph_projection
+  - evidence_linking
+  - node_dossier_review
+expected_outputs: [artifact_summary, generated_nodes, evidence_refs, graph_updates]
+min_validation:
+  require_evidence_id: true
+  require_graph_link: true
+system_prompt: >
+  Perform a defensive triage of the artifact without executing it. Identify the format, the best
+  parser, metadata and high-signal content. Update the graph with explainable nodes and
+  relationships, create stable evidence records, and state limits or missing data.
+modules: ["artifacts"]

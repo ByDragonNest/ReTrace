@@ -1,0 +1,27 @@
+id: vuln_triage
+name: Vulnerability Triage
+description: "Rapid vulnerability triage on a benign binary: attack surface, dangerous sinks, input sources, components with known CVEs."
+safety_mode: assisted
+requires_dynamic: false
+steps:
+  - static_triage
+  - hardening_audit
+  - attack_surface_mapping
+  - dangerous_sink_inventory
+  - source_to_sink_tracing
+  - third_party_cve_check
+  - finding_validation
+  - report_generation
+expected_outputs: [attack_surface, dangerous_sinks, input_sources, vulnerable_components, findings, report]
+min_validation:
+  require_evidence_id: true
+  require_callsite: true
+system_prompt: >
+  Perform a vulnerability triage on benign software under authorized assessment. Map the
+  attack surface (imports/exports, input parsing, file/IO, network), inventory the dangerous
+  sinks (exec, mem-copy, format string, alloc, file, load library) and the input sources
+  (argv/env/file/network/registry), then trace the source→sink paths. Check third-party
+  components for known CVEs. Classify each finding with CWE and severity based on
+  exploitability (also factoring in missing mitigations). Findings remain HYPOTHESIS until
+  confirmed by evidence. No weaponization or exploit development.
+modules: ["analysis","strings","imports","artifacts","findings"]

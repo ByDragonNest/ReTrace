@@ -1,0 +1,53 @@
+{
+  "manifest_version": 1,
+  "server": "findings",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Finding bookkeeping helpers.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "cvss_calculate",
+      "risk_class": "safe_read",
+      "capability": "Compute a CVSS v3.1 base score from a vector string, without recording anything.",
+      "cost": "medium"
+    },
+    {
+      "name": "export_report",
+      "risk_class": "write_or_patch",
+      "capability": "Export the findings as a Markdown report, ordered by severity, with an executive summary",
+      "cost": "medium"
+    },
+    {
+      "name": "finding_add",
+      "risk_class": "safe_read",
+      "capability": "Record a vulnerability finding. Deduplicated on (title, location, cwe), so the same issue",
+      "cost": "medium"
+    },
+    {
+      "name": "finding_delete",
+      "risk_class": "write_or_patch",
+      "capability": "Permanently delete a finding. Requires confirm=true. Prefer setting status to",
+      "cost": "medium"
+    },
+    {
+      "name": "finding_get",
+      "risk_class": "safe_read",
+      "capability": "Retrieve the full detail of one finding, including evidence and reproduction steps.",
+      "cost": "medium"
+    },
+    {
+      "name": "finding_list",
+      "risk_class": "safe_read",
+      "capability": "List recorded findings, sorted by CVSS score descending. Filter by status, minimum severity",
+      "cost": "medium"
+    },
+    {
+      "name": "finding_update",
+      "risk_class": "safe_read",
+      "capability": "Update a finding \u2014 most often to move it from draft to confirmed once you have a working",
+      "cost": "medium"
+    }
+  ]
+}

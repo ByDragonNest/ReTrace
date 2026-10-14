@@ -1,0 +1,11 @@
+# Dipendenze OPZIONALI per i server MCP aggiuntivi (servers/).
+# Installa solo quelli che vuoi usare; i server senza la loro dipendenza restano
+# semplicemente "offline" e non bloccano l'app.
+flare-floss>=3.0     # server floss — stringhe offuscate/decodificate
+# tshark: NON è un pacchetto pip — installa Wireshark/tshark dal sistema operativo
+#   Windows: installa Wireshark (include tshark) e assicurati che tshark sia nel PATH
+#   Debian/Ubuntu: sudo apt install tshark
+
+# Neo4j OPTIONAL graph backend (servers/grafo). Off by default: il grafo vive comunque in SQLite.
+# Abilita con config.NEO4J_ENABLED=True (o env REFORGE_NEO4J_ENABLED=1) dopo aver installato:
+neo4j>=5.0            # mirror del Threat/Evidence graph su Neo4j + esplorazione Cypher

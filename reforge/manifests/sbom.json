@@ -1,0 +1,41 @@
+{
+  "manifest_version": 1,
+  "server": "sbom",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "SBOM generation and component inventory.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "check_sbom_setup",
+      "risk_class": "safe_read",
+      "capability": "Report whether syft and grype are installed, their versions, and the state and AGE of the",
+      "cost": "medium"
+    },
+    {
+      "name": "cve_lookup",
+      "risk_class": "safe_read",
+      "capability": "Query OSV.dev for the CVEs affecting a specific product version. Unlike an NVD keyword search",
+      "cost": "medium"
+    },
+    {
+      "name": "detect_components",
+      "risk_class": "safe_read",
+      "capability": "Fingerprint embedded third-party libraries and their versions from version banners in the",
+      "cost": "medium"
+    },
+    {
+      "name": "generate_sbom",
+      "risk_class": "safe_read",
+      "capability": "Generate a CycloneDX SBOM with Syft. Syft detects far more than version banners: package",
+      "cost": "medium"
+    },
+    {
+      "name": "scan_vulnerabilities",
+      "risk_class": "safe_read",
+      "capability": "Match the components of a binary against known CVEs using Grype, which matches on version",
+      "cost": "medium"
+    }
+  ]
+}

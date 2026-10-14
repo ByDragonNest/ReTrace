@@ -1,0 +1,22 @@
+id: x64dbg_state_validation
+name: x64dbg State Validation
+description: "Confirm process state, modules, breakpoints and the arguments of critical APIs in the debugger."
+safety_mode: assisted
+requires_dynamic: true
+steps:
+  - debugger_attach_or_launch
+  - module_inventory
+  - breakpoint_plan
+  - argument_capture
+  - runtime_evidence_capture
+  - finding_update
+expected_outputs: [debugger_state, captured_arguments, dynamic_evidence, validation_result]
+min_validation:
+  require_evidence_id: true
+  require_dynamic: true
+  require_callsite: true
+system_prompt: >
+  Use x64dbg for defensive validation, with approval for every state-changing action. Confirm
+  loaded modules, call sites and arguments at runtime. Update findings only with observed,
+  reproducible evidence. Do not generate exploits or payloads.
+modules: ["runtime"]

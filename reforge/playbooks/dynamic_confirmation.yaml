@@ -1,0 +1,22 @@
+id: dynamic_confirmation
+name: Dynamic Confirmation
+description: "Runtime confirmation of static hypotheses (requires assisted/autonomous mode)."
+safety_mode: assisted
+requires_dynamic: true
+steps:
+  - select_hypotheses
+  - set_breakpoints
+  - dynamic_trace
+  - confirm_source_to_sink
+  - finding_validation
+  - report_generation
+expected_outputs: [dynamic_events, confirmed_chains, updated_findings, report]
+min_validation:
+  require_evidence_id: true
+  require_callsite: true
+  require_dynamic: true
+system_prompt: >
+  Dynamically confirm the priority hypotheses. Set breakpoints on the exact sink callsites,
+  observe the arguments at runtime, and mark confirmed_dynamic only with observed evidence.
+  All state-changing actions require explicit approval.
+modules: ["runtime","findings"]

@@ -1,0 +1,16 @@
+id: report_only
+name: Report Only
+description: "Generates only the report from already-collected findings/evidence."
+safety_mode: safe
+requires_dynamic: false
+steps:
+  - finding_validation
+  - report_generation
+expected_outputs: [report]
+min_validation:
+  require_evidence_id: false
+  require_callsite: false
+system_prompt: >
+  Generate the report from existing data without new analysis. Clearly distinguish hypotheses,
+  suspicions and confirmed findings; do not promote findings lacking evidence.
+modules: ["reports","findings"]

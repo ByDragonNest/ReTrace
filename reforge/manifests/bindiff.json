@@ -1,0 +1,17 @@
+{
+  "manifest_version": 1,
+  "server": "bindiff",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Security-oriented diff between two builds of the same binary.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "binary_diff",
+      "risk_class": "safe_read",
+      "capability": "Security diff between two versions of a binary (A=old, B=new): changes in mitigations,",
+      "cost": "medium"
+    }
+  ]
+}

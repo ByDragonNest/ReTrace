@@ -1,0 +1,17 @@
+{
+  "manifest_version": 1,
+  "server": "hardening",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Exploit-mitigation audit of PE/ELF headers (DEP, ASLR, GS, CFG, RELRO, PIE).",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "hardening_audit",
+      "risk_class": "safe_read",
+      "capability": "Audit a PE or ELF binary for exploit mitigations (DEP/NX, ASLR/PIE, stack canary/GS,",
+      "cost": "medium"
+    }
+  ]
+}

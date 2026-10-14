@@ -1,0 +1,41 @@
+{
+  "manifest_version": 1,
+  "server": "fuzz",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Fuzzing harness generation and corpus helpers.",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "check_fuzzing_setup",
+      "risk_class": "safe_read",
+      "capability": "Check which fuzzing and triage tooling is available, and suggest the right fuzzer for the",
+      "cost": "medium"
+    },
+    {
+      "name": "corpus_minimize",
+      "risk_class": "safe_read",
+      "capability": "Remove exact duplicates from a corpus, and optionally drop files above a size threshold.",
+      "cost": "medium"
+    },
+    {
+      "name": "corpus_stats",
+      "risk_class": "safe_read",
+      "capability": "Summarise a fuzzing corpus: file count, size distribution, exact duplicates, and the mix of",
+      "cost": "medium"
+    },
+    {
+      "name": "dedup_crashes",
+      "risk_class": "safe_read",
+      "capability": "Group a directory of crash files into distinct bugs by stack hash, and report one",
+      "cost": "medium"
+    },
+    {
+      "name": "triage_crash",
+      "risk_class": "safe_read",
+      "capability": "Run one crash input against the target under a debugger and classify the resulting fault:",
+      "cost": "medium"
+    }
+  ]
+}

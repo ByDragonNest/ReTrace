@@ -1,0 +1,47 @@
+{
+  "manifest_version": 1,
+  "server": "winsec",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Windows security descriptor and privilege inspection.",
+  "default_risk_class": "sensitive_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "acl_audit",
+      "risk_class": "sensitive_read",
+      "capability": "Check the DACL of a file or directory for write access granted to untrusted principals",
+      "cost": "medium"
+    },
+    {
+      "name": "dll_hijack_candidates",
+      "risk_class": "sensitive_read",
+      "capability": "Static DLL search-order hijacking analysis of a PE. Lists imported and delay-loaded DLLs that",
+      "cost": "medium"
+    },
+    {
+      "name": "full_deployment_audit",
+      "risk_class": "sensitive_read",
+      "capability": "Run the whole deployment-side checklist in one call: signature, ACL of the binary, ACL of the",
+      "cost": "medium"
+    },
+    {
+      "name": "install_dir_audit",
+      "risk_class": "sensitive_read",
+      "capability": "Walk an installation directory and report every file and subdirectory whose ACL grants write",
+      "cost": "medium"
+    },
+    {
+      "name": "service_audit",
+      "risk_class": "sensitive_read",
+      "capability": "Audit Windows services for the classic privesc primitives: unquoted service path with spaces",
+      "cost": "medium"
+    },
+    {
+      "name": "signature_check",
+      "risk_class": "sensitive_read",
+      "capability": "Verify the Authenticode signature of a binary: present, valid, trusted chain, timestamped,",
+      "cost": "medium"
+    }
+  ]
+}

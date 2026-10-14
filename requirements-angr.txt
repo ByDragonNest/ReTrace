@@ -1,0 +1,21 @@
+# ============================================================================
+#  reach_mcp — analisi di raggiungibilita su call graph
+#
+#  METTILO IN UN VENV SEPARATO. angr pesa circa 1 GB, tira dentro decine di
+#  dipendenze transitive con pin stretti (claripy, cle, pyvex, archinfo,
+#  unicorn, z3-solver) e va regolarmente in conflitto con altri pacchetti.
+#
+#      python -m venv .venv-angr
+#      .venv-angr\Scripts\activate
+#      pip install -r requirements-angr.txt
+#
+#  Poi punta SOLO il server reach a questo interprete nella config MCP:
+#      "command": "C:/va/.venv-angr/Scripts/python.exe",
+#      "args": ["C:/va/servers/reach_mcp.py"]
+#
+#  Su Windows puo servire Visual C++ Build Tools per compilare le estensioni.
+#  Testato con angr 9.3.3.
+# ============================================================================
+
+mcp>=1.2.0,<2
+angr>=9.2.0

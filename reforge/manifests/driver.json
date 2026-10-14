@@ -1,0 +1,53 @@
+{
+  "manifest_version": 1,
+  "server": "driver",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Kernel driver inspection (IOCTL surface, dispatch routines).",
+  "default_risk_class": "sensitive_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "decode_ioctl_code",
+      "risk_class": "sensitive_read",
+      "capability": "Decode a single IOCTL code into its four fields and explain what each implies.",
+      "cost": "medium"
+    },
+    {
+      "name": "device_access_check",
+      "risk_class": "sensitive_read",
+      "capability": "Test empirically whether the CURRENT user can open a handle to a device object.",
+      "cost": "medium"
+    },
+    {
+      "name": "driver_attack_surface",
+      "risk_class": "sensitive_read",
+      "capability": "Full driver assessment in one call: kernel imports by risk, IOCTL codes decoded and ranked,",
+      "cost": "medium"
+    },
+    {
+      "name": "driver_imports_audit",
+      "risk_class": "sensitive_read",
+      "capability": "Audit the kernel APIs a driver imports, ranked by the risk each one carries in ring 0.",
+      "cost": "medium"
+    },
+    {
+      "name": "find_device_names",
+      "risk_class": "sensitive_read",
+      "capability": "Extract the device and symbolic-link names a driver creates (\\Device\\X, \\DosDevices\\X,",
+      "cost": "medium"
+    },
+    {
+      "name": "find_installed_drivers",
+      "risk_class": "sensitive_read",
+      "capability": "Enumerate the kernel drivers registered on the system, with their image path, start type and",
+      "cost": "medium"
+    },
+    {
+      "name": "list_ioctls",
+      "risk_class": "sensitive_read",
+      "capability": "Recover the IOCTL codes a driver handles and decode each one into DeviceType, Function,",
+      "cost": "medium"
+    }
+  ]
+}

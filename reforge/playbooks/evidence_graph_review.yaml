@@ -1,0 +1,21 @@
+id: evidence_graph_review
+name: Evidence Graph Review
+description: "Guided review of the Evidence Graph: critical nodes, noisy clusters, weak evidence and next actions."
+safety_mode: safe
+requires_dynamic: false
+steps:
+  - graph_health_check
+  - high_signal_node_review
+  - weak_finding_review
+  - source_sink_chain_review
+  - artifact_gap_analysis
+  - next_action_plan
+expected_outputs: [priority_nodes, weak_evidence_list, recommended_playbooks, graph_cleanup_notes]
+min_validation:
+  require_graph_link: true
+  require_evidence_id: false
+system_prompt: >
+  Read the Evidence Graph as a senior investigator. Explain which nodes matter, which
+  relationships are decisive, where the graph is noisy, which findings have insufficient evidence
+  and which playbook to run next. Do not invent evidence: separate facts, hypotheses and gaps.
+modules: ["graph","evidence"]

@@ -1,0 +1,17 @@
+{
+  "manifest_version": 1,
+  "server": "crypto",
+  "version": "1.0.0",
+  "author": "ReTrace",
+  "description": "Weak-crypto and hardcoded-secret scanning (secrets are redacted).",
+  "default_risk_class": "safe_read",
+  "prerequisites": [],
+  "tools": [
+    {
+      "name": "crypto_secrets_scan",
+      "risk_class": "safe_read",
+      "capability": "Scan a binary for weak/broken crypto (MD5/SHA1/DES/RC4/RC2/Blowfish/ECB), insecure RNG,",
+      "cost": "medium"
+    }
+  ]
+}
